@@ -17,6 +17,8 @@ export default function Edittraining(props) {
         setOpen(true);
     }
 
+  
+
     const handleClose = () => {
         props.updateTraining(props.training.links[0].href,training);
         //console.log(props.training.links[0].href)

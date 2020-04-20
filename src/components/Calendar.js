@@ -11,10 +11,6 @@ export default function Kalenteri() {
   let events = [{ id: '', title: '' }, [{ start: '' }, { end: '' }]];
   const localizer = momentLocalizer(moment);
   
-
-  
-  
-
   useEffect(() => {
 
     getCustomers();
@@ -36,19 +32,19 @@ export default function Kalenteri() {
   }
 
 
-
-
-
   for (let i = 0; i < trainings.length; i++) {
     if (trainings[i].customer != null) {
 
+      
+      let loppuaika = new Date(new Date(trainings[i].date).setMinutes
+      (new Date(trainings[i].date).getMinutes() + trainings[i].duration))      
 
 
       if (i === 0) {
-        events = [{ id: i, title: trainings[i].activity + "/" + trainings[i].customer.firstname + " " + trainings[i].customer.lastname, start: moment.utc(new Date(trainings[i].date)), end: moment.utc(new Date(new Date(trainings[i].date).setMinutes(new Date(trainings[i].date).getMinutes() + trainings[i].duration))) }]
+        events = [{ id: i, title: trainings[i].activity + "/" + trainings[i].customer.firstname + " " + trainings[i].customer.lastname, start: new Date(trainings[i].date), end: loppuaika }]
 
       } else {
-        events = [...events, { id: i, title: trainings[i].activity + "/" + trainings[i].customer.firstname + " " + trainings[i].customer.lastname, start: moment.utc(new Date(trainings[i].date)), end: moment.utc(new Date(new Date(trainings[i].date).setMinutes(new Date(trainings[i].date).getMinutes() + trainings[i].duration))) }]
+        events = [...events, { id: i, title: trainings[i].activity + "/" + trainings[i].customer.firstname + " " + trainings[i].customer.lastname, start: new Date(trainings[i].date), end:loppuaika }]
       }
     }
   }
@@ -60,8 +56,9 @@ export default function Kalenteri() {
 
   return (
     <div>
+     
       <p>
-        A test for the React Big Calendar.
+        Personaltrainer's calendar
           </p>
       <div style={{ height: '500pt' }}>
         <Calendar

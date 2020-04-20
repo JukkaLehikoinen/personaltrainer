@@ -5,12 +5,15 @@ import Button from '@material-ui/core/Button';
 import SnackBar from '@material-ui/core/Snackbar';
 import Addtraining from './Addtraining';
 import Edittraining from './Edittraining';
+import moment from 'moment';
+
 
 
 export default function Traininglist() {
     const [trainings, setTrainings] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [msg, setMsg] = React.useState('');
+    
 
     useEffect(() => {
         getTrainings();
@@ -21,6 +24,9 @@ export default function Traininglist() {
         .then(response => response.json())
         .then(data => setTrainings(data.content))
         .catch(err => console.error(err))
+
+        
+    
     }
 
     const deleteTraining = (link) => {
@@ -40,6 +46,10 @@ export default function Traininglist() {
 
     const addTraining = (training) => {
         //console.log(training)
+        let dateConv = training.date.split('.')
+        let convert = new Date(dateConv[1]+'-'+dateConv[0]+'-'+dateConv[2]).toISOString();
+        training.date=convert;
+        //console.log(training)
         fetch('https://customerrest.herokuapp.com/api/trainings', {method: 'POST',
         headers:{'Content-Type':'application/json'
         },
@@ -56,6 +66,11 @@ export default function Traininglist() {
     }
 
     const updateTraining = (link, training) => {
+        let dateConv = training.date.split('.')
+        let convert = new Date(moment.utc(dateConv[1]+'-'+dateConv[0]+'-'+dateConv[2]))
+        training.date=convert;
+        console.log(training.date)
+        
         fetch(link,{
             method:'PUT', 
             headers: {
@@ -77,11 +92,24 @@ export default function Traininglist() {
         setOpen(false);
     }
     
+   const showFilteredFormat =(row) =>{
+    return (
+        <div>
+            {moment(row.date).format("DD.MM.YYYY HH:mm:ss")}
+        </div>
+    )
+    
+   }
+    
     const columns = [
                
         {
             Header: 'Date',
-            accessor: 'date'
+            accessor: 'date',
+            Cell: row => (showFilteredFormat(row.original))
+               
+            
+            
         },
         {
             Header: 'Duration',

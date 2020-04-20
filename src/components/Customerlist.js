@@ -6,6 +6,7 @@ import SnackBar from '@material-ui/core/Snackbar';
 import Addcustomer from './Addcustomer';
 import Editcustomer from './Editcustomer';
 import Customertrain from './Customertrain';
+import moment from 'moment'
 
 export default function Customerlist() {
     const [customers, setCustomers] = React.useState([]);
@@ -141,10 +142,10 @@ export default function Customerlist() {
 
     const addActivity = (link,date,activity,duration,info) => {
         setDisplay(0)
-        console.log(dlink)
-        console.log(date)
-        console.log(activity)
-        console.log(duration)
+        //console.log(dlink)
+        //console.log(date)
+        //console.log(activity)
+        //console.log(duration)
         let customero = {date: date, duration: duration, activity: activity, customer: dlink}
         ///////////////////
         fetch('https://customerrest.herokuapp.com/api/trainings',{
@@ -171,14 +172,22 @@ export default function Customerlist() {
         }
         //////////////////
 
-    
+        const showFilteredFormat =(row) =>{
+            return (
+                <div>
+                    {moment(row.date).format("DD.MM.YYYY HH:mm:ss")}
+                </div>
+            )
+            
+           }
     
 
     if (display===1){
         const columns = [
             {
                 Header: 'Date',
-                accessor: 'date'
+            accessor: 'date',
+            Cell: row => (showFilteredFormat(row.original))
             },
             {
                 Header: 'Duration',
