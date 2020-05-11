@@ -45,11 +45,11 @@ export default function Traininglist() {
     }
 
     const addTraining = (training) => {
-        //console.log(training)
-        let dateConv = training.date.split('.')
-        let convert = new Date(dateConv[1]+'-'+dateConv[0]+'-'+dateConv[2]).toISOString();
-        training.date=convert;
-        //console.log(training)
+        console.log(training)
+        
+        let dateConv = new Date(training.date + " " + training.time).toISOString();
+        //console.log(dateConv)
+        training.date=dateConv;
         fetch('https://customerrest.herokuapp.com/api/trainings', {method: 'POST',
         headers:{'Content-Type':'application/json'
         },
@@ -66,9 +66,9 @@ export default function Traininglist() {
     }
 
     const updateTraining = (link, training) => {
-        let dateConv = training.date.split('.')
-        let convert = new Date(moment.utc(dateConv[1]+'-'+dateConv[0]+'-'+dateConv[2]))
-        training.date=convert;
+        let dateConv = new Date(training.date + " " + training.time).toISOString();
+        //console.log(dateConv)
+        training.date=dateConv;
         console.log(training.date)
         
         fetch(link,{

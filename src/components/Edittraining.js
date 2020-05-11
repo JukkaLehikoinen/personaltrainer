@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function Edittraining(props) {
     const [open, setOpen] = React.useState(false);
-    const [training, setTraining] = React.useState({date:'', duration:'', activity:''})
+    const [training, setTraining] = React.useState({date:'', time:'', duration:'', activity:''})
 
     const handleClickOpen = () => {
       //console.log(props.training);
@@ -47,9 +47,19 @@ export default function Edittraining(props) {
             margin="dense"
             id="date"
             name="date"
+            type="date"
             value={training.date}
             onChange={inputChanged}
-            label="Date"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="time"
+            name="time"
+            type="time"
+            value={training.time}
+            onChange={inputChanged}
             fullWidth
           />
           <TextField
